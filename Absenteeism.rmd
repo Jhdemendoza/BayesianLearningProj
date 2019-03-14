@@ -5,11 +5,26 @@ output: html_notebook
 
 ```{r}
 absent <- read.csv("Absenteeism.csv", sep=";")
-head(absent)
+names(absent)
+unique(absent$Absenteeism.time.in.hours)
 ```
 
 ```{r}
-hoursMonth <- 
+sumHoursPerMonth <- function(data) {
+  
+  hoursYear <- unique(data$Year.of.absence)
+  for (hourYear in hoursYear) {
+    hoursMonth <- unique(data[data$Year.of.absence == hourYear,]$Month.of.absence)
+    for (hourMonth in hoursMonth) {
+      sum(data[data$Month.of.absence == hourMonth & data$Year.of.absence == hourYear,]$Absenteeism.time.in.hours)
+    }
+  }
+}
+
+sumHoursPerMonth(absent)
+
+sum(absent[absent$Month.of.absence == 7 & absent$Year.of.absence == 2007,])
+
 ```
 
 
