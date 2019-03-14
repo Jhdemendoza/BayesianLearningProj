@@ -1,0 +1,16 @@
+---
+title: "Absenteeism"
+output: html_notebook
+---
+
+```{r}
+absent <- read.csv("Absenteeism.csv", sep=";")
+head(absent)
+```
+
+```{r}
+hoursMonth <- 
+```
+
+
+
