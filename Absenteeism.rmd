@@ -4,6 +4,10 @@ output: html_notebook
 ---
 
 ```{r}
+library("fpp")
+```
+
+```{r}
 absent <- read.csv("Absenteeism.csv", sep=";")
 names(absent)
 unique(absent$Absenteeism.time.in.hours)
@@ -11,20 +15,25 @@ unique(absent$Absenteeism.time.in.hours)
 
 ```{r}
 sumHoursPerMonth <- function(data) {
-  
+  hoursPerMonth <- ts(numeric(37), frequency = 12)#, start = as.numeric( format( as.Date( "2007-01-07" ), "%j") ))
   hoursYear <- unique(data$Year.of.absence)
+  k = 1
   for (hourYear in hoursYear) {
     hoursMonth <- unique(data[data$Year.of.absence == hourYear,]$Month.of.absence)
     for (hourMonth in hoursMonth) {
-      sum(data[data$Month.of.absence == hourMonth & data$Year.of.absence == hourYear,]$Absenteeism.time.in.hours)
+      print(as.numeric(sum(data[data$Month.of.absence == hourMonth & data$Year.of.absence == hourYear,]$Absenteeism.time.in.hours)))
+      hoursPerMonth[k] = as.numeric(sum(data[data$Month.of.absence == hourMonth & data$Year.of.absence == hourYear,]$Absenteeism.time.in.hours))
+      print(hoursPerMonth[k])
+      k = k+1
     }
   }
+  hoursPerMonth
 }
 
-sumHoursPerMonth(absent)
+hoursPerMonth <- sumHoursPerMonth(absent)
+hoursPerMonth
 
-sum(absent[absent$Month.of.absence == 7 & absent$Year.of.absence == 2007,])
-
+tsdisplay(hoursPerMonth)
 ```
 
 
